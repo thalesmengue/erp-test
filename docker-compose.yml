@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: codeigniter3_app
+        restart: unless-stopped
+        ports:
+            - "80:80"
+        volumes:
+            - .:/var/www/html
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - codeigniter3_network
+        depends_on:
+            - db
+
+    db:
+        image: mysql:8.0
+        container_name: codeigniter3_db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: codeigniter3_db
+            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_USER: ci_user
+            MYSQL_PASSWORD: ci_password
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+        networks:
+            - codeigniter3_network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: codeigniter3_phpmyadmin
+        restart: unless-stopped
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            PMA_USER: root
+            PMA_PASSWORD: root_password
+        ports:
+            - "8081:80"
+        networks:
+            - codeigniter3_network
+        depends_on:
+            - db
+
+volumes:
+    mysql_data:
+
+networks:
+    codeigniter3_network:
+        driver: bridge
