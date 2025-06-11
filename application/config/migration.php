@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | and disable it back when you're done.
 |
 */
-$config['migration_enabled'] = FALSE;
+$config['migration_enabled'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +69,7 @@ $config['migration_auto_latest'] = FALSE;
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 0;
+$config['migration_version'] = 20260611183230;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,3 +82,5 @@ $config['migration_version'] = 0;
 |
 */
 $config['migration_path'] = APPPATH.'migrations/';
+
+date_default_timezone_set('America/Sao_Paulo');
